@@ -10,8 +10,17 @@
 *
 * Licença: GNU GPLv3
 *
-* 2013
+* 2013-2021
 ***********************************************************/
+
+//Standard size: 100, 64. Bigger blocks, good for presentation: 25, 16
+#ifndef WIDTH
+#define WIDTH 100
+#endif
+
+#ifndef HEIGHT
+#define HEIGHT 64
+#endif
 
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_primitives.h>
@@ -26,8 +35,7 @@
 #include <inttypes.h>
 //#define ALLEGRO_STATICLINK
 //GLOBALS==============================
-const uint16_t WIDTH = 100; //tamanho normal: 100. BIG: 25
-const uint16_t HEIGHT = 64; // tamanho normal: 64. BIG: 16
+
 const uint16_t SCREEN_WIDTH=1000;
 const uint16_t SCREEN_HEIGHT=640;
 const uint16_t STATUS_BAR_HEIGHT=25;
@@ -44,7 +52,6 @@ uint8_t underUniverse[WIDTH+2][HEIGHT+2]; //for neighbourhood checking
 void InitUniverse();
 void drawUniverse(bool grid);
 void updateUniverse(void);
-void copyUniverse(uint8_t un[], uint8_t newuni[]);
 void LoadFile(const char* filename);
 void fileSelect(ALLEGRO_DISPLAY *disp, ALLEGRO_TIMER *tim);
 void showHelpMessage(ALLEGRO_DISPLAY *display);
@@ -393,17 +400,6 @@ void updateUniverse()
           }
      }
 
-}
-void copyUniverse(uint8_t un, uint8_t newuni)
-{
-     /*    for (int j=1; j<WIDTH-1; j++)
-         {
-             for (int k=1; k<HEIGHT-1; k++)
-             {
-                 newuni[j][k]=un[j][k];
-             }
-         }
-         */
 }
 
 void LoadFile(const char *filename)
