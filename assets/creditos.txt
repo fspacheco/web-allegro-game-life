@@ -5,3 +5,4 @@ Licenciado como CC BY-NC 3.0 https://creativecommons.org/licenses/by-nc/3.0/
 Fontes:
 http://1001freefonts.com/font/VideoPhreak.zip
 http://1001freefonts.com/font/Arcade.zip
+Rubik Project Authors https://github.com/googlefonts/rubik

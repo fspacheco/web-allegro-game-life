@@ -8,6 +8,12 @@
 * Implementação didática, sem otimização
 * Usa matriz estática
 *
+* Versão para web (emscripten)
+* O que muda? Como emscripten não abre caixa de diálogo,
+* o carregamento de arquivos com a tecla L foi modificado
+* para ser um conjunto fixo de 10 arquivos, com as 
+* teclas de 0 a 9.
+*
 * Licença: GNU GPLv3
 *
 * 2013-2021
@@ -33,6 +39,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <inttypes.h>
+#include "cell_files.h"
 //#define ALLEGRO_STATICLINK
 //GLOBALS==============================
 
@@ -54,7 +61,7 @@ void drawUniverse(bool grid);
 void updateUniverse(void);
 void LoadFile(const char* filename);
 void fileSelect(ALLEGRO_DISPLAY *disp, ALLEGRO_TIMER *tim);
-void showHelpMessage(ALLEGRO_DISPLAY *display);
+void showHelpMessageOnScreen(ALLEGRO_FONT *fTitle, ALLEGRO_FONT *fText);
 void drawStatusBar(int st, ALLEGRO_FONT *fText, int uppulse, int fps);
 void showIntro(ALLEGRO_FONT *fTitle, ALLEGRO_FONT *fSubt, ALLEGRO_FONT *fText, int *drtimer, int uppulse);
 
@@ -79,6 +86,7 @@ int main(void)
      ALLEGRO_FONT *fontText = NULL;
      ALLEGRO_FONT *fontTitle = NULL;
      ALLEGRO_FONT *fontSubtitle = NULL;
+     ALLEGRO_FONT *fontHelp = NULL;
      ALLEGRO_SAMPLE *theme = NULL;
      ALLEGRO_SAMPLE_INSTANCE *themeInstance = NULL;
 
@@ -116,6 +124,8 @@ int main(void)
      if (!fontTitle) exit(-1);
      fontSubtitle = al_load_font("assets/Arcade.ttf", 48, 0);
      if (!fontSubtitle) exit(-1);
+     fontHelp = al_load_font("assets/Rubik-Regular.ttf", 18, 0);
+     if (!fontHelp) exit(-1);
 
     al_reserve_samples(1);
     theme = al_load_sample("assets/61703__djgriffin__0004-1-audio.wav");
@@ -184,7 +194,7 @@ int main(void)
                     break;
                case ALLEGRO_KEY_F1:
                     keys[F1] = true;
-                    showHelpMessage(display);
+                    showHelpMessageOnScreen(fontTitle, fontHelp);
                     break;
                case ALLEGRO_KEY_SPACE:
                     keys[SPACE] = true;
@@ -202,6 +212,36 @@ int main(void)
                          break;
                     }
                     break;
+               case ALLEGRO_KEY_0:
+                    LoadFile(CELL_FILE[0]);
+                    break;
+               case ALLEGRO_KEY_1:
+                    LoadFile(CELL_FILE[1]);
+                    break;
+               case ALLEGRO_KEY_2:
+                    LoadFile(CELL_FILE[2]);
+                    break;
+               case ALLEGRO_KEY_3:
+                    LoadFile(CELL_FILE[3]);
+                    break;
+               case ALLEGRO_KEY_4:
+                    LoadFile(CELL_FILE[4]);
+                    break;
+               case ALLEGRO_KEY_5:
+                    LoadFile(CELL_FILE[5]);
+                    break;                    
+               case ALLEGRO_KEY_6:
+                    LoadFile(CELL_FILE[6]);
+                    break;
+               case ALLEGRO_KEY_7:
+                    LoadFile(CELL_FILE[7]);
+                    break;
+               case ALLEGRO_KEY_8:
+                    LoadFile(CELL_FILE[8]);
+                    break;
+               case ALLEGRO_KEY_9:
+                    LoadFile(CELL_FILE[9]);
+                    break;                    
                }
           } else if(ev.type == ALLEGRO_EVENT_KEY_UP) {
                switch(ev.keyboard.keycode) {
@@ -385,7 +425,6 @@ void updateUniverse()
      }
      //até aqui, era só para preparar a matriz que vai ser testada (underUniverse)
 
-
      for (int j=1; j<WIDTH+1; j++) {
           for (int k=1; k<HEIGHT+1; k++) {
                neighbour=underUniverse[j-1][k-1] + underUniverse[j][k-1] + underUniverse[j+1][k-1] +
@@ -451,29 +490,38 @@ void fileSelect(ALLEGRO_DISPLAY *disp, ALLEGRO_TIMER *tim)
      }
 }
 
-void showHelpMessage(ALLEGRO_DISPLAY *disp)
+void showHelpMessageOnScreen(ALLEGRO_FONT *fTitle, ALLEGRO_FONT *fText)
 {
-     al_show_native_message_box(
-          disp,
-          "Help",
-          "Game of Life",
-          "Jogo da Vida (Conway's Game of Life) implementa um autômato celular.\n"
-          "Esta versão foi desenvolvida em C, usando a biblioteca Allegro 5.\n\n"
-          "Ajuda resumida:\n"
-          "F1: Help\n"
-          "Espaço: alterna entre modos de edição e evolução\n"
-          "Mouse: cria ou apaga células no modo de edição\n"
-          "L: carrega arquivo no formato .cells, definido em\nhttp://www.bitstorm.org/gameoflife/lexicon/\n"
-          "G: alterna apresentação da grade (grid)\n"
-          "C: extermina todas as células\n "
-          "+ e - alteram a velocidade de evolução\n"
-          "\n"
-          "Desenvolvido por Fernando S. Pacheco (fspacheco@gmail.com), 2013\n"
-          "Licença: GNU GPLv3.\n"
-          "Música de abertura:\n"
-          "http://www.freesound.org/people/djgriffin/sounds/61703/"
-          "CC BY-NC 3.0",
-          NULL, 0);
+     al_draw_textf(fTitle, al_map_rgb(255, 255, 255), SCREEN_WIDTH/2-80, 20, 0, "Help");
+     al_draw_textf(fText, al_map_rgb(255, 255, 255), 20, 70, 0, 
+      "Jogo da Vida (Conway's Game of Life) implementa um autômato celular.");
+     al_draw_textf(fText, al_map_rgb(255, 255, 255), 20, 95, 0,
+      "Esta versão foi desenvolvida em C, usando a biblioteca Allegro 5.");
+     al_draw_textf(fText, al_map_rgb(255, 255, 255), 20, 120, 0,
+      "F1: este Help");
+     al_draw_textf(fText, al_map_rgb(255, 255, 255), 20, 145, 0,
+      "Espaço: alterna entre modos de edição e evolução");
+     al_draw_textf(fText, al_map_rgb(255, 255, 255), 20, 170, 0,
+      "Mouse: cria ou apaga células no modo de edição");
+     al_draw_textf(fText, al_map_rgb(255, 255, 255), 20, 195, 0,
+      "G: alterna apresentação da grade (grid)");
+     al_draw_textf(fText, al_map_rgb(255, 255, 255), 20, 220, 0,
+      "C: extermina todas as células");
+     al_draw_textf(fText, al_map_rgb(255, 255, 255), 20, 245, 0,
+      "0 a 9: carrega cells de http://www.bitstorm.org/gameoflife/lexicon/");
+     al_draw_textf(fText, al_map_rgb(255, 255, 255), 20, 280, 0,
+      "Desenvolvido por Fernando S. Pacheco (fspacheco@gmail.com)");
+     al_draw_textf(fText, al_map_rgb(255, 255, 255), 20, 305, 0,
+      "Licença: GNU GPLv3");
+     al_draw_textf(fText, al_map_rgb(255, 255, 255), 20, 330, 0,
+      "Música de abertura:");
+     al_draw_textf(fText, al_map_rgb(255, 255, 255), 20, 355, 0,
+      "http://www.freesound.org/people/djgriffin/sounds/61703/");
+     al_draw_textf(fText, al_map_rgb(255, 255, 255), 20, 380, 0,
+      "CC BY-NC 3.0");
+
+     al_flip_display();
+     al_rest(5.0);
 }
 
 

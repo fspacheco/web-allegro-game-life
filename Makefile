@@ -7,7 +7,7 @@ all: allegro-life allegro-life-BIG
 allegro-life: main.o
 	$(CC) main.o -o allegro-life $(LDLIBS)
 
-main.o: main.c
+main.o: main.c cell_files.h
 	$(CC) -o main.o -DWIDTH=100 -DHEIGHT=64 -c main.c
 
 allegro-life-BIG: main-BIG.o
