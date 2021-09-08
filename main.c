@@ -33,7 +33,6 @@
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
 #include <allegro5/allegro_image.h>
-#include <allegro5/allegro_native_dialog.h>
 #include <allegro5/allegro_audio.h>
 #include <allegro5/allegro_acodec.h>
 #include <stdio.h>
@@ -470,7 +469,7 @@ void LoadFile(const char *filename)
 
 void fileSelect(ALLEGRO_DISPLAY *disp, ALLEGRO_TIMER *tim)
 {
-     ALLEGRO_FILECHOOSER *file_load_dialog = NULL;
+/*     ALLEGRO_FILECHOOSER *file_load_dialog = NULL;
      const char *rp = NULL;
 
      file_load_dialog = al_create_native_file_dialog("cells/",
@@ -488,6 +487,7 @@ void fileSelect(ALLEGRO_DISPLAY *disp, ALLEGRO_TIMER *tim)
           al_destroy_native_file_dialog(file_load_dialog);
           al_start_timer(tim);
      }
+     */
 }
 
 void showHelpMessageOnScreen(ALLEGRO_FONT *fTitle, ALLEGRO_FONT *fText)
@@ -519,7 +519,9 @@ void showHelpMessageOnScreen(ALLEGRO_FONT *fTitle, ALLEGRO_FONT *fText)
       "http://www.freesound.org/people/djgriffin/sounds/61703/");
      al_draw_textf(fText, al_map_rgb(255, 255, 255), 20, 380, 0,
       "CC BY-NC 3.0");
-
+      al_draw_textf(fText, al_map_rgb(255, 255, 255), 20, 420, 0,
+      "Versão Web compilada com Emscripten");
+  
      al_flip_display();
      al_rest(5.0);
 }
