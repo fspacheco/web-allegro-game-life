@@ -275,6 +275,7 @@ int main(void)
 
           if(redraw && al_is_event_queue_empty(event_queue)) {
                redraw = false;
+               al_clear_to_color(al_map_rgb(0,0,0));
 
                if(!isGameOver) {
                     switch (state) {
@@ -300,7 +301,6 @@ int main(void)
 
                }
                al_flip_display();
-               al_clear_to_color(al_map_rgb(0,0,0));
           }
      }
 
