@@ -490,7 +490,7 @@ void fileSelect(ALLEGRO_DISPLAY *disp, ALLEGRO_TIMER *tim)
      */
 }
 
-void showHelpMessageOnScreen(ALLEGRO_FONT *fTitle, ALLEGRO_FONT *fText)
+void showHelpMessageOnScreenPortuguese(ALLEGRO_FONT *fTitle, ALLEGRO_FONT *fText)
 {
      al_draw_textf(fTitle, al_map_rgb(255, 255, 255), SCREEN_WIDTH/2-80, 20, 0, "Help");
      al_draw_textf(fText, al_map_rgb(255, 255, 255), 20, 70, 0, 
@@ -526,8 +526,81 @@ void showHelpMessageOnScreen(ALLEGRO_FONT *fTitle, ALLEGRO_FONT *fText)
      al_rest(5.0);
 }
 
+void showHelpMessageOnScreen(ALLEGRO_FONT *fTitle, ALLEGRO_FONT *fText)
+{
+     al_draw_textf(fTitle, al_map_rgb(255, 255, 255), SCREEN_WIDTH/2-80, 20, 0, "Help");
+     al_draw_textf(fText, al_map_rgb(255, 255, 255), 20, 70, 0,
+      "Conway's Game of Life implements a cellular automaton.");
+     al_draw_textf(fText, al_map_rgb(255, 255, 255), 20, 95, 0,
+      "This version was developed in C, with Allegro 5 library.");
+     al_draw_textf(fText, al_map_rgb(255, 255, 255), 20, 120, 0,
+      "F1: this Help");
+     al_draw_textf(fText, al_map_rgb(255, 255, 255), 20, 145, 0,
+      "Space: change between edit and evolution mode");
+     al_draw_textf(fText, al_map_rgb(255, 255, 255), 20, 170, 0,
+      "Mouse: left button press creates or deletes cells while in edit mode");
+     al_draw_textf(fText, al_map_rgb(255, 255, 255), 20, 195, 0,
+      "G: show/hide the grid");
+     al_draw_textf(fText, al_map_rgb(255, 255, 255), 20, 220, 0,
+      "C: clear all cells");
+     al_draw_textf(fText, al_map_rgb(255, 255, 255), 20, 245, 0,
+      "0 a 9: load cells from http://www.bitstorm.org/gameoflife/lexicon/");
+     al_draw_textf(fText, al_map_rgb(255, 255, 255), 20, 280, 0,
+      "Developed by Fernando S. Pacheco (fspacheco@gmail.com)");
+     al_draw_textf(fText, al_map_rgb(255, 255, 255), 20, 305, 0,
+      "License: GNU GPLv3");
+     al_draw_textf(fText, al_map_rgb(255, 255, 255), 20, 330, 0,
+      "Opening music:");
+     al_draw_textf(fText, al_map_rgb(255, 255, 255), 20, 355, 0,
+      "http://www.freesound.org/people/djgriffin/sounds/61703/");
+     al_draw_textf(fText, al_map_rgb(255, 255, 255), 20, 380, 0,
+      "CC BY-NC 3.0");
+
+     al_flip_display();
+     al_rest(5.0);
+}
 
 void showIntro(ALLEGRO_FONT *fTitle, ALLEGRO_FONT *fSubt, ALLEGRO_FONT *fText, int *drtimer, int uppulse)
+{
+     al_draw_textf(fTitle, al_map_rgb(255, 255, 255), SCREEN_WIDTH/2-200, SCREEN_HEIGHT/2-80, 0, "Jogo da Vida");
+     al_draw_textf(fSubt, al_map_rgb(255, 255, 255), SCREEN_WIDTH/2-150, SCREEN_HEIGHT/2-30, 0, "Conway's Game of Life");
+     al_draw_textf(fText, al_map_rgb(255, 255, 255), 20, SCREEN_HEIGHT/2+160, 0,
+                   "This is a 0-player game,");
+     al_draw_textf(fText, al_map_rgb(255, 255, 255), 20, SCREEN_HEIGHT/2+180, 0,
+                   "with the following cell automaton rule:");
+     al_draw_textf(fText, al_map_rgb(255, 255, 255), 20, SCREEN_HEIGHT/2+200, 0,
+                   "- a new cell is created if it has 3 live neighbors and");
+     al_draw_textf(fText, al_map_rgb(255, 255, 255), 20, SCREEN_HEIGHT/2+220, 0,
+                   "- a cell survives if it has 2 or 3 neighbors.");
+     al_draw_textf(fText, al_map_rgb(255, 255, 255), 20, SCREEN_HEIGHT/2+250, 0,
+                   "Press [space] and go to the Universe... Press F 1 for help");
+     al_draw_textf(fText, al_map_rgb(255, 255, 255), 20, SCREEN_HEIGHT/2+270, 0,
+                   "Create a colony clicking on the screen with");
+     al_draw_textf(fText, al_map_rgb(255, 255, 255), 20, SCREEN_HEIGHT/2+290, 0,
+                   "the mouse left button, press space and see the evolution!");
+     al_draw_textf(fText, al_map_rgb(255, 255, 255), 550, SCREEN_HEIGHT/2+120, 0,
+                   "Developed by Fernando S. Pacheco");
+     static uint8_t intro_color_r=0;
+     static int8_t fator=10;
+     if (*drtimer>=uppulse) {
+          intro_color_r+=fator;
+          if (intro_color_r<=10) {
+               fator=+10;
+          }
+          if (intro_color_r>=240) {
+               fator=-10;
+          }
+          *drtimer=0;
+     }
+     al_draw_filled_rectangle(20, 20, 40, 40, al_map_rgb(intro_color_r, 0, 0));
+     al_draw_filled_rectangle(60, 60, 80, 80, al_map_rgb(intro_color_r, 255-intro_color_r, 0));
+     al_draw_filled_rectangle(20, 100, 40, 120, al_map_rgb(intro_color_r, 0, 0));
+     al_draw_filled_rectangle(SCREEN_WIDTH-20, SCREEN_HEIGHT-20, SCREEN_WIDTH-40, SCREEN_HEIGHT-40, al_map_rgb(255-intro_color_r, 0, 0));
+     al_draw_filled_rectangle(SCREEN_WIDTH-60, SCREEN_HEIGHT-60, SCREEN_WIDTH-80, SCREEN_HEIGHT-80, al_map_rgb(intro_color_r, intro_color_r, 0));
+     al_draw_filled_rectangle(SCREEN_WIDTH-20, SCREEN_HEIGHT-100, SCREEN_WIDTH-40, SCREEN_HEIGHT-120, al_map_rgb(255-intro_color_r, 0, 0));
+}
+
+void showIntroPortuguese(ALLEGRO_FONT *fTitle, ALLEGRO_FONT *fSubt, ALLEGRO_FONT *fText, int *drtimer, int uppulse)
 {
      al_draw_textf(fTitle, al_map_rgb(255, 255, 255), SCREEN_WIDTH/2-200, SCREEN_HEIGHT/2-80, 0, "Jogo da Vida");
      al_draw_textf(fSubt, al_map_rgb(255, 255, 255), SCREEN_WIDTH/2-150, SCREEN_HEIGHT/2-30, 0, "Conway's Game of Life");
@@ -540,13 +613,9 @@ void showIntro(ALLEGRO_FONT *fTitle, ALLEGRO_FONT *fSubt, ALLEGRO_FONT *fText, i
      al_draw_textf(fText, al_map_rgb(255, 255, 255), 20, SCREEN_HEIGHT/2+220, 0,
                    "- uma célula sobrevive se tiver duas ou três vizinhas.");
      al_draw_textf(fText, al_map_rgb(255, 255, 255), 20, SCREEN_HEIGHT/2+250, 0,
-                   "Aperte [espaco] e vá para o Universo...");
-     al_draw_textf(fText, al_map_rgb(255, 255, 255), 146, SCREEN_HEIGHT/2+252, 0,
-                   ","); //cedilha de espaço
+                   "Aperte [espaco] e vá para o Universo... ");
      al_draw_textf(fText, al_map_rgb(255, 255, 255), 20, SCREEN_HEIGHT/2+270, 0,
                    "Crie uma colônia e veja sua evolucão!");
-     al_draw_textf(fText, al_map_rgb(255, 255, 255), 351, SCREEN_HEIGHT/2+272, 0,
-                   ","); //cedilha de evolução
      al_draw_textf(fText, al_map_rgb(255, 255, 255), 550, SCREEN_HEIGHT/2+270, 0,
                    "Desenvolvido por Fernando S. Pacheco");
      static uint8_t intro_color_r=0;
@@ -568,3 +637,4 @@ void showIntro(ALLEGRO_FONT *fTitle, ALLEGRO_FONT *fSubt, ALLEGRO_FONT *fText, i
      al_draw_filled_rectangle(SCREEN_WIDTH-60, SCREEN_HEIGHT-60, SCREEN_WIDTH-80, SCREEN_HEIGHT-80, al_map_rgb(intro_color_r, intro_color_r, 0));
      al_draw_filled_rectangle(SCREEN_WIDTH-20, SCREEN_HEIGHT-100, SCREEN_WIDTH-40, SCREEN_HEIGHT-120, al_map_rgb(255-intro_color_r, 0, 0));
 }
+
