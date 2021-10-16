@@ -1,4 +1,8 @@
 # Conway's Game of Life
+Running at https://fspacheco.github.io/web-allegro-game-life/
+
+Game of Life implements an cellular automaton.
+
 Jogo da Vida implementa um autômato celular.
 
 Esta versão foi desenvolvida em C, usando a biblioteca Allegro 5.
